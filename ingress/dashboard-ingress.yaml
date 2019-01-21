@@ -1,0 +1,44 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    xnginx.ingress.kubernetes.io/secure-backends: "true"
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.kube-system.svc.cluster.local/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    external-dns.alpha.kubernetes.io/hostname: {{ .hostname }}
+  name: external-auth-oauth2
+  namespace: kube-system
+spec:
+  rules:
+  - host: {{ .hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
+        path: /
+  tls:
+  - hosts:
+    - {{ .hostname }}
+    secretName: tls-{{ .component }}
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: oauth2-proxy
+  namespace: kube-system
+spec:
+  rules:
+  - host: {{ .hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: oauth2-proxy
+          servicePort: 80
+        path: /oauth2
+  tls:
+  - hosts:
+    - {{ .hostname }}
+    secretName: tls-{{ .component }}

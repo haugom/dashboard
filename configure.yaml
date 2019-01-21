@@ -1,0 +1,8 @@
+---
+context: haugom
+global:
+  client_id: to_be_inserted
+  client_secret: to_be_inserted
+  cookie_secret: to_be_inserted
+include: 
+  - name: config

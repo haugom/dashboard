@@ -1,0 +1,9 @@
+---
+context: haugom
+global:
+  component: dashboard
+  hostname: dashboard.k8s.cloud.haugom.org
+include: 
+  - name: ingress
+  - name: kubernetes-dashboard
+  - name: oauth2

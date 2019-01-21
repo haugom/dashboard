@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+data:
+  data.txt: |
+    haugom@gmail.com
+kind: ConfigMap
+metadata:
+  name: allowed-emails
+  namespace: kube-system
